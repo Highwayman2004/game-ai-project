@@ -134,30 +134,37 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.893052, 0, -23.371738)
 
 [node name="Guards" type="Node3D" parent="." unique_id=1463710676]
 
-[node name="Guard" parent="Guards" unique_id=1667266071 node_paths=PackedStringArray("route_path") instance=ExtResource("3_sugp2")]
+[node name="Guard" parent="Guards" unique_id=1667266071 node_paths=PackedStringArray("route_path", "retreat_cluster") instance=ExtResource("3_sugp2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.935436, 0, 0)
 route_path = NodePath("../../Routes/Route1")
+retreat_cluster = NodePath("../../RetreatPoints")
 
-[node name="Guard2" parent="Guards" unique_id=735436911 node_paths=PackedStringArray("route_path") instance=ExtResource("3_sugp2")]
+[node name="Guard2" parent="Guards" unique_id=735436911 node_paths=PackedStringArray("route_path", "retreat_cluster") instance=ExtResource("3_sugp2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.935436, 0, 0)
 route_path = NodePath("../../Routes/Route2")
+retreat_cluster = NodePath("../../RetreatPoints")
 
-[node name="Guard3" parent="Guards" unique_id=565395505 node_paths=PackedStringArray("route_path") instance=ExtResource("3_sugp2")]
+[node name="Guard3" parent="Guards" unique_id=565395505 node_paths=PackedStringArray("route_path", "retreat_cluster") instance=ExtResource("3_sugp2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.935436, 0, 0)
 route_path = NodePath("../../Routes/Route3")
+retreat_cluster = NodePath("../../RetreatPoints")
 
-[node name="Guard4" parent="Guards" unique_id=1249602078 node_paths=PackedStringArray("route_path") instance=ExtResource("3_sugp2")]
+[node name="Guard4" parent="Guards" unique_id=1249602078 node_paths=PackedStringArray("route_path", "retreat_cluster") instance=ExtResource("3_sugp2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.935436, 0, 0)
 route_path = NodePath("../../Routes/Route4")
+retreat_cluster = NodePath("../../RetreatPoints")
 
-[node name="Guard5" parent="Guards" unique_id=338807177 node_paths=PackedStringArray("route_path") instance=ExtResource("3_sugp2")]
+[node name="Guard5" parent="Guards" unique_id=338807177 node_paths=PackedStringArray("route_path", "retreat_cluster") instance=ExtResource("3_sugp2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.935436, 0, 0)
 route_path = NodePath("../../Routes/Route5")
+retreat_cluster = NodePath("../../RetreatPoints")
 
-[node name="Guard6" parent="Guards" unique_id=1490827423 node_paths=PackedStringArray("route_path") instance=ExtResource("3_sugp2")]
+[node name="Guard6" parent="Guards" unique_id=1490827423 node_paths=PackedStringArray("route_path", "retreat_cluster") instance=ExtResource("3_sugp2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.935436, 0, 0)
 route_path = NodePath("../../Routes/Route6")
+retreat_cluster = NodePath("../../RetreatPoints")
 
-[node name="Guard7" parent="Guards" unique_id=1223154686 node_paths=PackedStringArray("route_path") instance=ExtResource("3_sugp2")]
+[node name="Guard7" parent="Guards" unique_id=1223154686 node_paths=PackedStringArray("route_path", "retreat_cluster") instance=ExtResource("3_sugp2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.935436, 0, 0)
 route_path = NodePath("../../Routes/Route7")
+retreat_cluster = NodePath("../../RetreatPoints")

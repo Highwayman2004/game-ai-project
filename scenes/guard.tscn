@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b6osp7ddbo2lr" path="res://scripts/guard.gd" id="1_ci2qi"]
 [ext_resource type="PackedScene" uid="uid://dwx5bw1x2irvq" path="res://assets/models/enemies/guards/soldier guy.glb" id="1_m4fl1"]
 [ext_resource type="Script" uid="uid://cy0u81g2mjvjs" path="res://scripts/state_machine.gd" id="3_k0dx2"]
+[ext_resource type="Script" uid="uid://dxx8t3bd1bhva" path="res://scripts/gruard_patrol.gd" id="4_ygo2t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jyhfs"]
 radius = 0.25390625
@@ -19,8 +20,13 @@ script = ExtResource("1_ci2qi")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.005, 1.0794601, 0.007)
 shape = SubResource("CapsuleShape3D_jyhfs")
 
-[node name="StateMachine" type="Node" parent="." unique_id=1039330738]
+[node name="StateMachine" type="Node" parent="." unique_id=1039330738 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_k0dx2")
+initial_state = NodePath("Guard_patrol")
+
+[node name="Guard_patrol" type="Node" parent="StateMachine" unique_id=564775771]
+script = ExtResource("4_ygo2t")
+metadata/_custom_type_script = "uid://dxx8t3bd1bhva"
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=685286979]
 path_desired_distance = 0.6
@@ -30,5 +36,3 @@ path_max_distance = 5.01
 [node name="WaitTimer" type="Timer" parent="." unique_id=560089665]
 wait_time = 5.0
 one_shot = true
-
-[connection signal="timeout" from="WaitTimer" to="." method="_on_wait_timer_timeout"]

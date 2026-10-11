@@ -1,6 +1,8 @@
 extends Node
 class_name State
 
+var guard: Guard
+
 signal Transitioned
 
 func Enter():
