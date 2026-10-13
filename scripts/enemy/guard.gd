@@ -9,8 +9,8 @@ var retreat_points: Array[Node3D] = []
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 
-#@onready var wait_timer: Timer = $WaitTimer
-#var waiting:= false
+@onready var wait_timer: Timer = $WaitTimer
+var waiting:= false
 
 @onready var state_machine:State_machine = $StateMachine
 
@@ -94,8 +94,7 @@ func _physics_process(delta: float) -> void:
 	#move_and_slide()
 
 func _on_wait_timer_timeout() -> void:
-	pass
-	#waiting = false
+	waiting = false
 	#
 	#var next_target_index: int = target_index + direction_step
 	#if next_target_index >= route_points.size() or next_target_index < 0:

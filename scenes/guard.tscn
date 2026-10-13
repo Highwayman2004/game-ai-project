@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://c6idh3af3p8y4"]
 
-[ext_resource type="Script" uid="uid://b6osp7ddbo2lr" path="res://scripts/guard.gd" id="1_ci2qi"]
+[ext_resource type="Script" uid="uid://b6osp7ddbo2lr" path="res://scripts/enemy/guard.gd" id="1_ci2qi"]
 [ext_resource type="PackedScene" uid="uid://dwx5bw1x2irvq" path="res://assets/models/enemies/guards/soldier guy.glb" id="1_m4fl1"]
-[ext_resource type="Script" uid="uid://cy0u81g2mjvjs" path="res://scripts/state_machine.gd" id="3_k0dx2"]
-[ext_resource type="Script" uid="uid://dxx8t3bd1bhva" path="res://scripts/gruard_patrol.gd" id="4_ygo2t"]
+[ext_resource type="Script" uid="uid://cy0u81g2mjvjs" path="res://scripts/enemy/state_machine.gd" id="3_k0dx2"]
+[ext_resource type="Script" uid="uid://dxx8t3bd1bhva" path="res://scripts/enemy/gruard_patrol.gd" id="4_ygo2t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jyhfs"]
 radius = 0.25390625

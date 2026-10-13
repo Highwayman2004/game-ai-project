@@ -8,6 +8,9 @@ var nav_agent: NavigationAgent3D
 var target_index: int
 var direction_step: int
 
+var wait_timer: Timer
+var waiting: bool
+
 func _ready() -> void:
 	pass
 	#print(speed)
@@ -23,6 +26,10 @@ func Enter():
 	nav_agent = guard.nav_agent
 	target_index = guard.target_index
 	direction_step = guard.direction_step
+	
+	wait_timer = guard.wait_timer
+	waiting = guard.waiting
+	waiting = false
 	
 	target_index = 1 % route_points.size()
 	
