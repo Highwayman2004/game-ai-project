@@ -22,7 +22,7 @@ guards = [NodePath("Guards/Guard"), NodePath("Guards/Guard2"), NodePath("Guards/
 [node name="PlayerSpawn" type="Node3D" parent="." unique_id=128622169]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.566046, 0, -40.01946)
 
-[node name="Player" parent="." unique_id=1711999646 instance=ExtResource("2_0wfyh")]
+[node name="Player" parent="." unique_id=1711999646 groups=["Player"] instance=ExtResource("2_0wfyh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9704137, 7.257036)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1743511790]

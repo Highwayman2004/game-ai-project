@@ -9,9 +9,6 @@ var retreat_points: Array[Node3D] = []
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 
-@onready var wait_timer: Timer = $WaitTimer
-var waiting:= false
-
 @onready var state_machine:State_machine = $StateMachine
 
 var current_speed: float
@@ -29,77 +26,16 @@ func _ready() -> void:
 	if retreat_cluster != null:
 		for r in retreat_cluster.get_children():
 			retreat_points.append(r)
-			
+	
+	if route_points.size() >= 2:
+		global_position = route_points[0].global_position
+		target_index = 1
+	
+	await  get_tree().physics_frame
 	state_machine.init(self)
-	
-	#target_index = 1 % route_points.size()
-	
-	#if route_points.size() < 2: return
-#
-	#global_position = route_points[0].global_position
-	#nav_agent.target_position = route_points[target_index].global_position
-	#
-	#current_speed = patrol_speed
 
 
 func _physics_process(delta: float) -> void:
+	if not is_on_floor():
+		velocity += get_gravity() * delta
 	move_and_slide()
-	#if not is_on_floor():
-		#velocity += get_gravity() * delta
-	#else:
-		#velocity.y = 0
-	#
-	#if waiting == true:
-		#velocity.x = 0
-		#velocity.z = 0
-		#move_and_slide()
-		#return
-	
-	#for i in route_points.size():
-		#target_index = i
-		#if nav_agent.is_navigation_finished():
-			#i+=1
-			#nav_agent.target_position = route_points[target_index].global_position
-		#
-		#speed = patrol_speed
-		#var target_position = nav_agent.get_next_path_position()
-		#var direction = target_position - global_position
-		#direction = direction.normalized()
-		#velocity = direction * speed
-		#move_and_slide()
-	
-	#if nav_agent.is_navigation_finished():
-		#waiting = true
-		#wait_timer.start()
-		#
-		##target_index += 1 
-		##nav_agent.target_position = route_points[target_index].global_position
-		#return
-		
-	#if target_index <= route_points.size():
-			#target_index = 0
-	
-	#var target_position = nav_agent.get_next_path_position()
-	#var direction = target_position - global_position
-	#direction.y = 0
-	#direction = direction.normalized()
-	#velocity.x = direction.x * current_speed
-	#velocity.z = direction.z * current_speed
-	##velocity = direction * speed
-	#
-	#if direction.length() > 0.01:
-		#var target_yaw = atan2(direction.x, direction.z)
-		#rotation.y = lerp_angle(rotation.y, target_yaw, 2 * delta)
-#
-	#move_and_slide()
-
-func _on_wait_timer_timeout() -> void:
-	waiting = false
-	#
-	#var next_target_index: int = target_index + direction_step
-	#if next_target_index >= route_points.size() or next_target_index < 0:
-		#direction_step *= -1
-		#next_target_index = target_index + direction_step
-	##target_index = (target_index + 1) % route_points.size()
-	#target_index = next_target_index
-	#nav_agent.target_position = route_points[target_index].global_position

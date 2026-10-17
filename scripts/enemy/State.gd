@@ -3,7 +3,7 @@ class_name State
 
 var guard: Guard
 
-signal Transitioned
+signal Transitioned(state: State, new_state_name: String)
 
 func Enter():
 	pass
@@ -11,9 +11,9 @@ func Enter():
 func Exit():
 	pass
 
-func Update(_delta: float):
+func Update(delta: float):
 	pass
 
 
-func Physics_Update(_delta:float):
+func Physics_Update(delta:float):
 	pass

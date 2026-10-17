@@ -8,9 +8,7 @@ var states: Dictionary = {}
 #var guard: Guard
 
 func init(guard: Guard) -> void:
-	#print("children:", get_children())
 	for child in get_children():
-		#print(child.name,"is in state:", child is State)
 		if child is State:
 			states[child.name.to_lower()] = child
 			child.guard = guard
@@ -20,15 +18,6 @@ func init(guard: Guard) -> void:
 		initial_state.Enter()
 		current_state = initial_state
 
-#func _ready() -> void:
-	#for child in get_children():
-		#if child is State:
-			#states[child.guard.to_lower()] = guard
-			#child.Transitioned.connect(on_child_transition)
-	#
-	#if initial_state:
-		#initial_state.Enter()
-		#current_state = initial_state
 
 
 func _process(delta: float) -> void:
