@@ -14,6 +14,11 @@ var retreat_points: Array[Node3D] = []
 var current_speed: float
 @export var patrol_speed: float = 2.0
 
+@onready var detection_ray: RayCast3D = $DetectionRay
+@onready var detection_area: ShapeCast3D = $DetectionArea
+var player_target: Player = null
+var player_detected: bool = false
+
 var target_index: int = 0
 var direction_step:int = 1
 
@@ -38,4 +43,15 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+	
+	#if detection_ray.is_colliding():
+		#if detection_ray.get_collider() is Player:
+			#player_target = detection_ray.get_collider()
+	
+	if detection_area.is_colliding():
+		if detection_area.get_collider(0) is Player:
+			player_target = detection_area.get_collider(0)
+			player_detected = true
+	
+	#get_tree().get_first_node_in_group("Player")
 	move_and_slide()

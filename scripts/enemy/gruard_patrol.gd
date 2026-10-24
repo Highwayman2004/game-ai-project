@@ -19,7 +19,13 @@ func Physics_Update(delta:float):
 		guard.velocity.z = 0
 		Transitioned.emit(self, "Wait")
 		return
-
+	
+	if guard.player_detected == true:
+		#print(guard.player_target.position)
+		advance_to_next_target()
+		Transitioned.emit(self, "Chase")
+		return
+	
 	var target_position = guard.nav_agent.get_next_path_position()
 	var direction = target_position - guard.global_position
 	direction.y = 0
