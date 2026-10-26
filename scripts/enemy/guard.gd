@@ -1,6 +1,7 @@
 extends CharacterBody3D
 class_name Guard
 
+
 @export var route_path: Node3D
 var route_points: Array[Node3D] = []
 
@@ -14,10 +15,14 @@ var retreat_points: Array[Node3D] = []
 var current_speed: float
 @export var patrol_speed: float = 2.0
 
-@onready var detection_ray: RayCast3D = $DetectionRay
-@onready var detection_area: ShapeCast3D = $DetectionArea
-var player_target: Player = null
+@onready var vision_area: Area3D = $VisionArea
+@export var detection_rays: Node3D
+var rays: Array[RayCast3D] = []
+var player_target: CharacterBody3D  = null
 var player_detected: bool = false
+
+@export var loose_player_time:float = 3.0
+var time_since_player_last_seen: float = 0.0
 
 var target_index: int = 0
 var direction_step:int = 1
@@ -36,6 +41,10 @@ func _ready() -> void:
 		global_position = route_points[0].global_position
 		target_index = 1
 	
+	if detection_rays != null:
+		for d in detection_rays.get_children():
+			rays.append(d)
+	
 	await  get_tree().physics_frame
 	state_machine.init(self)
 
@@ -44,14 +53,37 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	#if detection_ray.is_colliding():
-		#if detection_ray.get_collider() is Player:
-			#player_target = detection_ray.get_collider()
-	
-	if detection_area.is_colliding():
-		if detection_area.get_collider(0) is Player:
-			player_target = detection_area.get_collider(0)
-			player_detected = true
-	
-	#get_tree().get_first_node_in_group("Player")
+	check_for_player(delta)
+
 	move_and_slide()
+
+
+func check_for_player(delta: float):
+	var player_found = false
+	var detection_target = null
+	
+	var overlaps = vision_area.get_overlapping_bodies()
+	if overlaps.size() > 0:
+		for o in overlaps:
+			if o.is_in_group("Player"):
+				for r in rays:
+					r.force_raycast_update()
+					if r.is_colliding():
+						var collider = r.get_collider()
+					
+						if collider.is_in_group("Player"):
+							player_found = true
+							detection_target = collider
+							break
+				break
+	
+	if player_found:
+		time_since_player_last_seen = 0.0;
+		player_detected = player_found
+		player_target = detection_target
+	else:
+		time_since_player_last_seen += delta
+		if time_since_player_last_seen >= loose_player_time:
+			player_detected = false
+			player_target = null
+	

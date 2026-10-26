@@ -76,8 +76,10 @@ flying={
 
 [layer_names]
 
+3d_physics/layer_1="Environment"
 3d_physics/layer_2="Player"
 3d_physics/layer_3="Guard"
+3d_physics/layer_4="Object"
 
 [physics]
 

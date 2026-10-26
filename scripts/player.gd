@@ -40,6 +40,7 @@ func _physics_process(delta: float) -> void:
 		collider.disabled = true
 	else:
 		velocity += get_gravity() * delta
+		collider.disabled = false
 
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
 	var direction := (player_camera.global_transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()

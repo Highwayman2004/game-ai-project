@@ -1,13 +1,17 @@
 extends State
 class_name Guard_chase
 
-@export var chase_speed: float = 5.0
+@export var chase_speed: float = 3.5
 
 func Enter():
 	pass
 
 
 func Physics_Update(delta:float):
+	if !guard.player_detected and guard.player_target == null:
+		Transitioned.emit(self,"Patrol")
+		return
+	
 	guard.nav_agent.target_position = guard.player_target.global_position
 	
 	var player_position = guard.nav_agent.get_next_path_position()
@@ -21,5 +25,6 @@ func Physics_Update(delta:float):
 		var target_yaw = atan2(direction.x, direction.z)
 		guard.rotation.y = lerp_angle(guard.rotation.y, target_yaw, 2 * delta)
 	
-	if guard.player_target == null:
+	if guard.player_detected == false:
 		Transitioned.emit(self,"Patrol")
+		return

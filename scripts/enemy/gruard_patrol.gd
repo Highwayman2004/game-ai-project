@@ -20,12 +20,25 @@ func Physics_Update(delta:float):
 		Transitioned.emit(self, "Wait")
 		return
 	
-	if guard.player_detected == true:
+	if guard.player_detected and guard.player_target != null:
 		#print(guard.player_target.position)
 		advance_to_next_target()
 		Transitioned.emit(self, "Chase")
 		return
 	
+	get_target_and_direction(delta)
+	
+
+func advance_to_next_target():
+	var next_target_index = guard.target_index + guard.direction_step
+	if next_target_index >= guard.route_points.size() or next_target_index < 0:
+		guard.direction_step *= -1
+		next_target_index = guard.target_index + guard.direction_step
+	guard.target_index = next_target_index
+	#nav_agent.target_position = route_points[target_index].global_position
+
+
+func get_target_and_direction(delta:float):
 	var target_position = guard.nav_agent.get_next_path_position()
 	var direction = target_position - guard.global_position
 	direction.y = 0
@@ -36,11 +49,3 @@ func Physics_Update(delta:float):
 	if direction.length() > 0.01:
 		var target_yaw = atan2(direction.x, direction.z)
 		guard.rotation.y = lerp_angle(guard.rotation.y, target_yaw, 2 * delta)
-
-func advance_to_next_target():
-	var next_target_index = guard.target_index + guard.direction_step
-	if next_target_index >= guard.route_points.size() or next_target_index < 0:
-		guard.direction_step *= -1
-		next_target_index = guard.target_index + guard.direction_step
-	guard.target_index = next_target_index
-	#nav_agent.target_position = route_points[target_index].global_position
