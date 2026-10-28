@@ -5,6 +5,8 @@ class_name Player
 @onready var player_camera: Camera3D = $Head/PlayerCamera
 @export var sensitivity: float = 0.001
 
+@onready var player_ray_cast: RayCast3D = $Head/PlayerCamera/RayCast
+
 @export var speed: float = 5.0
 @export var sprint_speed: float = 7.0
 var current_speed:float

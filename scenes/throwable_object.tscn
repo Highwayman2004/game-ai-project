@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bkw4ipvinwx60"]
+
+[ext_resource type="Script" uid="uid://del70daptpji1" path="res://scripts/throwable_object.gd" id="1_2x8qv"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mkcvk"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2x8qv"]
+
+[node name="ThrowableObject" type="RigidBody3D" unique_id=1154170230]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_2x8qv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=188664721]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("CylinderMesh_mkcvk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=295751837]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("CylinderShape3D_2x8qv")

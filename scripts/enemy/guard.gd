@@ -18,6 +18,7 @@ var current_speed: float
 @onready var vision_area: Area3D = $VisionArea
 @export var detection_rays: Node3D
 var rays: Array[RayCast3D] = []
+@onready var touch_detection_area: Area3D = $ToutchDetectionArea
 var player_target: CharacterBody3D  = null
 var player_detected: bool = false
 
@@ -28,6 +29,8 @@ var target_index: int = 0
 var direction_step:int = 1
 
 func _ready() -> void:
+	add_to_group("Enemy")
+	
 	if route_path != null:
 		for p in route_path.get_children():
 			route_points.append(p)
@@ -45,6 +48,8 @@ func _ready() -> void:
 		for d in detection_rays.get_children():
 			rays.append(d)
 	
+	
+	
 	await  get_tree().physics_frame
 	state_machine.init(self)
 
@@ -54,7 +59,7 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 	
 	check_for_player(delta)
-
+	
 	move_and_slide()
 
 
@@ -62,9 +67,9 @@ func check_for_player(delta: float):
 	var player_found = false
 	var detection_target = null
 	
-	var overlaps = vision_area.get_overlapping_bodies()
-	if overlaps.size() > 0:
-		for o in overlaps:
+	var vision_overlaps = vision_area.get_overlapping_bodies()
+	if vision_overlaps.size() > 0:
+		for o in vision_overlaps:
 			if o.is_in_group("Player"):
 				for r in rays:
 					r.force_raycast_update()
@@ -77,6 +82,15 @@ func check_for_player(delta: float):
 							break
 				break
 	
+	var touch_overlaps = touch_detection_area.get_overlapping_bodies()
+	if touch_overlaps.size() > 0:
+		for o in touch_overlaps:
+			if o.is_in_group("Player") and !player_found:
+				player_found = true
+				detection_target = o
+				break
+	
+	
 	if player_found:
 		time_since_player_last_seen = 0.0;
 		player_detected = player_found
@@ -86,4 +100,3 @@ func check_for_player(delta: float):
 		if time_since_player_last_seen >= loose_player_time:
 			player_detected = false
 			player_target = null
-	
