@@ -2,18 +2,19 @@
 
 [ext_resource type="Script" uid="uid://dlb4ia3hp451x" path="res://scripts/player/player.gd" id="1_3vyb7"]
 [ext_resource type="PackedScene" uid="uid://ddpodhymow0wm" path="res://assets/models/enemies/guards/mp5.glb" id="2_g2els"]
-[ext_resource type="Script" uid="uid://c0dwp1evk7nna" path="res://scripts/player/player_weapons.gd" id="2_qhqgy"]
+[ext_resource type="PackedScene" uid="uid://bkw4ipvinwx60" path="res://scenes/throwable_object.tscn" id="2_qhqgy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_b7kvq"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_gywp8"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_mkcvk"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_o6xl0"]
 
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=1711999646]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_3vyb7")
+throwable_scene = ExtResource("2_qhqgy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=54434477]
 shape = SubResource("CapsuleShape3D_b7kvq")
@@ -25,7 +26,6 @@ mesh = SubResource("CapsuleMesh_gywp8")
 
 [node name="PlayerCamera" type="Camera3D" parent="Head" unique_id=300526967]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57201076, -0.26592398)
-script = ExtResource("2_qhqgy")
 
 [node name="RayCast" type="RayCast3D" parent="Head/PlayerCamera" unique_id=1685099728]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
@@ -38,9 +38,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.57201076, 0.26592398)
 [node name="mp5" parent="Head/PlayerCamera/Gun" unique_id=1884079227 instance=ExtResource("2_g2els")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.2838732, -0.5238693)
 
+[node name="RayCast3D" type="RayCast3D" parent="Head/PlayerCamera/Gun" unique_id=1199058199]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.4239746, -0.72130585)
+target_position = Vector3(0, -50, 0)
+collision_mask = 4
+
 [node name="Throwable object" type="Node3D" parent="Head/PlayerCamera" unique_id=1207698501]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25568986, -0.3570125)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Head/PlayerCamera/Throwable object" unique_id=42922250]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
-mesh = SubResource("BoxMesh_mkcvk")
+transform = Transform3D(0.0831149, 0.055604976, 0, -0.055604976, 0.0831149, 0, 0, 0, 0.1, 0.09221369, 0, 0)
+mesh = SubResource("CylinderMesh_o6xl0")
+
+[node name="ThrowPoint" type="Node3D" parent="Head/PlayerCamera/Throwable object" unique_id=1649453041]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025946379, 0)
+
+[node name="ThrowAimPoint" type="Node3D" parent="Head/PlayerCamera" unique_id=242825690]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.3119116)

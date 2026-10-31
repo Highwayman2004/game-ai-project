@@ -1,11 +1,8 @@
 extends RigidBody3D
 class_name Throwable_object
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_to_group("Object")
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func throw_object(dir: Vector3):
+	linear_velocity = dir.normalized() * 10.0

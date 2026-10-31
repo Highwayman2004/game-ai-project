@@ -8,7 +8,8 @@
 [ext_resource type="Script" uid="uid://bp1r5nqdkhgft" path="res://scripts/enemy/guard_chase.gd" id="6_5dfqo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mkcvk"]
-radius = 0.26708984
+radius = 0.42773438
+height = 2.0720215
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jyhfs"]
 radius = 0.25390625
@@ -29,6 +30,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ToutchDetectionArea" unique_id=377623072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.036010742, 0)
 shape = SubResource("CapsuleShape3D_mkcvk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=365521262]
@@ -63,19 +65,19 @@ path_max_distance = 5.01
 [node name="DetectionRay" type="RayCast3D" parent="DetectionRays" unique_id=1574531360]
 transform = Transform3D(1, 0, 0, 0, -0.019464143, 0.9998106, 0, -0.9998106, -0.019464143, 0, 1.6336169, 0.11452156)
 target_position = Vector3(0, -100, 0)
-collision_mask = 2
+collision_mask = 3
 collide_with_areas = true
 
 [node name="DetectionRay2" type="RayCast3D" parent="DetectionRays" unique_id=1927738140]
 transform = Transform3D(0.70710677, -0.7069765, -0.013574612, 0, -0.0191974, 0.9998157, -0.70710677, -0.7069765, -0.013574612, 0, 1.6336169, 0.11452156)
 target_position = Vector3(0, -100, 0)
-collision_mask = 2
+collision_mask = 3
 collide_with_areas = true
 
 [node name="DetectionRay3" type="RayCast3D" parent="DetectionRays" unique_id=2020000323]
 transform = Transform3D(0.70710677, 0.7069765, 0.013574612, 0, -0.0191974, 0.9998157, 0.70710677, -0.7069765, -0.013574612, 0, 1.6336169, 0.11452156)
 target_position = Vector3(0, -100, 0)
-collision_mask = 2
+collision_mask = 3
 collide_with_areas = true
 
 [node name="VisionArea" type="Area3D" parent="." unique_id=2066661315]

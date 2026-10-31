@@ -25,6 +25,10 @@ var player_detected: bool = false
 @export var loose_player_time:float = 3.0
 var time_since_player_last_seen: float = 0.0
 
+
+@export var max_health: int = 100
+var current_health: int
+
 var target_index: int = 0
 var direction_step:int = 1
 
@@ -48,7 +52,7 @@ func _ready() -> void:
 		for d in detection_rays.get_children():
 			rays.append(d)
 	
-	
+	current_health = max_health
 	
 	await  get_tree().physics_frame
 	state_machine.init(self)
@@ -76,10 +80,9 @@ func check_for_player(delta: float):
 					if r.is_colliding():
 						var collider = r.get_collider()
 					
-						if collider.is_in_group("Player"):
+						if collider.is_in_group("Player") and !player_found:
 							player_found = true
 							detection_target = collider
-							break
 				break
 	
 	var touch_overlaps = touch_detection_area.get_overlapping_bodies()
@@ -88,8 +91,6 @@ func check_for_player(delta: float):
 			if o.is_in_group("Player") and !player_found:
 				player_found = true
 				detection_target = o
-				break
-	
 	
 	if player_found:
 		time_since_player_last_seen = 0.0;
@@ -100,3 +101,19 @@ func check_for_player(delta: float):
 		if time_since_player_last_seen >= loose_player_time:
 			player_detected = false
 			player_target = null
+
+
+func take_damage(damage:int, attacker:Node3D = null):
+	if current_health <= 0:
+		null
+	
+	current_health -= damage
+	
+	if attacker.is_in_group("Player"):
+		player_target = attacker
+		player_detected = true
+		time_since_player_last_seen = 0.0
+		#print("damage taken")
+	
+	if current_health <= 0:
+		queue_free()

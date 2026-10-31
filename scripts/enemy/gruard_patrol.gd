@@ -12,18 +12,17 @@ func Enter():
 func Physics_Update(delta:float):
 	if guard.route_points.size() < 2: 
 		return
-
+	
+	if guard.player_detected and guard.player_target != null:
+		advance_to_next_target()
+		Transitioned.emit(self, "Chase")
+		return
+	
 	if guard.nav_agent.is_navigation_finished():
 		advance_to_next_target()
 		guard.velocity.x = 0
 		guard.velocity.z = 0
 		Transitioned.emit(self, "Wait")
-		return
-	
-	if guard.player_detected and guard.player_target != null:
-		#print(guard.player_target.position)
-		advance_to_next_target()
-		Transitioned.emit(self, "Chase")
 		return
 	
 	get_target_and_direction(delta)
