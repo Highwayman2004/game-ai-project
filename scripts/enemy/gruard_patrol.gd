@@ -15,8 +15,12 @@ func Physics_Update(delta:float):
 	
 	if guard.player_detected and guard.player_target != null:
 		advance_to_next_target()
-		Transitioned.emit(self, "Chase")
+		if guard.time_to_retreat:
+			Transitioned.emit(self, "Retreat")
+		else:
+			Transitioned.emit(self, "Chase")
 		return
+	
 	
 	if guard.nav_agent.is_navigation_finished():
 		advance_to_next_target()

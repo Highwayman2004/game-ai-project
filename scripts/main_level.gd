@@ -1,5 +1,7 @@
 extends Node
 
+@export var level: Node3D
+
 @export var player_start: Node3D
 @export var player: CharacterBody3D
 
@@ -11,6 +13,8 @@ var spawns: Array[Node3D] = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	level.add_to_group("Environment")
+	
 	player.global_position = player_start.position
 	player.rotate_y(PI)
 	

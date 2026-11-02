@@ -11,7 +11,11 @@ class_name Player
 
 @onready var gun: Node3D = $Head/PlayerCamera/Gun
 @onready var gun_ray: RayCast3D = $Head/PlayerCamera/Gun/RayCast3D
+#@onready var gun_sound_player: AudioStreamPlayer3D = $SoundEffects/GunShots
+#var gun_sound_position: Vector3
 var using_gun: bool
+
+@onready var sound_maker: Node3D = $SoundMaker
 
 @onready var throwable: Node3D = $"Head/PlayerCamera/Throwable object"
 @onready var throw_point: Node3D = $"Head/PlayerCamera/Throwable object/ThrowPoint"
@@ -49,10 +53,11 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
-	throwable_object_detection()
+	
 
 func _physics_process(delta: float) -> void:
 	player_controls(delta)
+	throwable_object_detection()
 
 
 func player_controls(delta: float):
@@ -85,6 +90,10 @@ func player_controls(delta: float):
 	
 	if Input.is_action_just_pressed("attack"):
 		if using_gun:
+			#var current_gun_sound_position = gun_sound_player.global_position
+			#gun_sound_player.play()
+			#gun_sound_position = current_gun_sound_position
+			sound_maker.play_sound_effect()
 			if gun_ray.is_colliding():
 				var collider = gun_ray.get_collider()
 				if collider.is_in_group("Enemy"):
@@ -121,15 +130,20 @@ func throwable_object_detection():
 	
 	if not player_ray_cast.is_colliding():
 		return
-	else:
-		var collider = player_ray_cast.get_collider()
-		if collider.is_in_group("Object"):
-			item_pick_up_label.visible = true
-			if !using_throwable:
-				label_text.text = "E) Pick up item"
-				if Input.is_action_just_pressed("interact") and !using_throwable:
-					use_throwable()
-					collider.queue_free()
-					item_pick_up_label.visible = false
-			else:
-				label_text.text = "You already have an item"
+	
+	var collider = player_ray_cast.get_collider()
+	if collider == null or not is_instance_valid(collider):
+		return
+	
+	if collider.is_in_group("Object"):
+		item_pick_up_label.visible = true
+		if !using_throwable:
+			label_text.text = "E) Pick up item"
+			if Input.is_action_just_pressed("interact"):
+				use_throwable()
+				collider.queue_free()
+				item_pick_up_label.visible = false
+		else:
+			label_text.text = "You already have an item"
+		
+		

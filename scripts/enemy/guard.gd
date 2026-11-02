@@ -25,12 +25,15 @@ var player_detected: bool = false
 @export var loose_player_time:float = 3.0
 var time_since_player_last_seen: float = 0.0
 
-
 @export var max_health: int = 100
 var current_health: int
+var time_to_retreat: bool = false
 
 var target_index: int = 0
 var direction_step:int = 1
+
+var last_player_position: Vector3
+var furthest_retreat
 
 func _ready() -> void:
 	add_to_group("Enemy")
@@ -63,7 +66,6 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 	
 	check_for_player(delta)
-	
 	move_and_slide()
 
 
@@ -93,9 +95,10 @@ func check_for_player(delta: float):
 				detection_target = o
 	
 	if player_found:
-		time_since_player_last_seen = 0.0;
+		time_since_player_last_seen = 0.0
 		player_detected = player_found
 		player_target = detection_target
+		last_player_position = detection_target.global_position
 	else:
 		time_since_player_last_seen += delta
 		if time_since_player_last_seen >= loose_player_time:
@@ -103,9 +106,22 @@ func check_for_player(delta: float):
 			player_target = null
 
 
+func find_futhest_retreat_point() -> Vector3:
+	var point:= global_position
+	var dist:= -1.0
+
+	for rp in retreat_points:
+		var d = last_player_position.distance_squared_to(rp.global_position)
+		if d > dist:
+			dist = d
+			point = rp.global_position
+	
+	return point
+
+
 func take_damage(damage:int, attacker:Node3D = null):
 	if current_health <= 0:
-		null
+		return
 	
 	current_health -= damage
 	
@@ -113,7 +129,10 @@ func take_damage(damage:int, attacker:Node3D = null):
 		player_target = attacker
 		player_detected = true
 		time_since_player_last_seen = 0.0
-		#print("damage taken")
+		last_player_position = attacker.global_position
+	
+	if current_health <= 50 and current_health > 0:
+		time_to_retreat = true
 	
 	if current_health <= 0:
 		queue_free()

@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://dxx8t3bd1bhva" path="res://scripts/enemy/gruard_patrol.gd" id="4_ygo2t"]
 [ext_resource type="Script" uid="uid://lb4kuxugfaia" path="res://scripts/enemy/guard_wait.gd" id="5_gn8tx"]
 [ext_resource type="Script" uid="uid://bp1r5nqdkhgft" path="res://scripts/enemy/guard_chase.gd" id="6_5dfqo"]
+[ext_resource type="Script" uid="uid://b8vah1pteset8" path="res://scripts/enemy/guard_retreat.gd" id="7_ywdc2"]
+[ext_resource type="Script" uid="uid://coiekhudgydbq" path="res://scripts/enemy/Guard_retreat_wait.gd" id="8_c4sgu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mkcvk"]
 radius = 0.42773438
@@ -54,6 +56,14 @@ metadata/_custom_type_script = "uid://lb4kuxugfaia"
 [node name="Chase" type="Node" parent="StateMachine" unique_id=3752483]
 script = ExtResource("6_5dfqo")
 metadata/_custom_type_script = "uid://bp1r5nqdkhgft"
+
+[node name="Retreat" type="Node" parent="StateMachine" unique_id=1308821242]
+script = ExtResource("7_ywdc2")
+metadata/_custom_type_script = "uid://b8vah1pteset8"
+
+[node name="RetreatWait" type="Node" parent="StateMachine" unique_id=1324463623]
+script = ExtResource("8_c4sgu")
+metadata/_custom_type_script = "uid://coiekhudgydbq"
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=685286979]
 path_desired_distance = 0.6

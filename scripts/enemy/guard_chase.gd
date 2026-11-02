@@ -25,6 +25,10 @@ func Physics_Update(delta:float):
 		var target_yaw = atan2(direction.x, direction.z)
 		guard.rotation.y = lerp_angle(guard.rotation.y, target_yaw, 2 * delta)
 	
+	if guard.player_detected and guard.time_to_retreat:
+		Transitioned.emit(self, "Retreat")
+		return
+	
 	if guard.player_detected == false:
 		Transitioned.emit(self,"Patrol")
 		return

@@ -13,10 +13,11 @@ func Physics_Update(delta:float):
 	guard.velocity.x = 0
 	guard.velocity.z = 0
 	
-	time_left -= delta
-	if time_left <= 0.0 and guard.player_detected == false:
-		Transitioned.emit(self, "Patrol")
+	if guard.player_detected:
+		Transitioned.emit(self, "Retreat" if guard.time_to_retreat else "Chase")
 		return
-	elif (time_left <= 0.0 or time_left > 0.0) and guard.player_detected:
-		Transitioned.emit(self, "Chase")
+	
+	time_left -= delta
+	if time_left <= 0.0:
+		Transitioned.emit(self, "Patrol")
 		return
