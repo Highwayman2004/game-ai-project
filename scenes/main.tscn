@@ -186,10 +186,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.052364, 0, 0)
 [node name="ItemSpawns" type="Node3D" parent="." unique_id=118498288]
 
 [node name="Point1" type="Node3D" parent="ItemSpawns" unique_id=86425112]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.28524, 1.6449165, -31.314621)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.28524, 0, -31.314621)
 
 [node name="Point2" type="Node3D" parent="ItemSpawns" unique_id=2112031279]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.260595, 1.6449165, -31.266619)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.260595, 0, -31.266619)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1920232103]
 

@@ -1,23 +1,30 @@
 extends RigidBody3D
 class_name Throwable_object
 
+@onready var clink_sound_player: AudioStreamPlayer3D = $ClinkSoundPlayer
 
-#@onready var audio_player: AudioStreamPlayer3D = $AudioPlayer
-#@export var main_sound_effect: AudioStreamMP3
-#@onready var sound_maker: Node3D = $Sound_maker
+var time_to_colision: float = .1
+var time_left: float
+var can_play_sound: bool = false
 
 func _ready() -> void:
 	add_to_group("Object")
-	
-	#audio_player = AudioStreamPlayer3D.new()
+	time_left = time_to_colision
 
-func throw_object(dir: Vector3):
+func throw_object(dir: Vector3, thrower: PhysicsBody3D = null):
 	linear_velocity = dir.normalized() * 15.0
+	if thrower:
+		add_collision_exception_with(thrower)
+		await get_tree().create_timer(0.3)
+		remove_collision_exception_with(thrower)
 
 
-#func _on_body_entered(body: Node):
-	#var colliders = get_colliding_bodies()
-	#if colliders.size() > 0:
-		#for c in colliders:
-			#if c.is_in_group("Environment"):
-				#print("collided")
+func _process(delta: float) -> void:
+	time_left -= delta
+	if time_left <= 0.0:
+		can_play_sound = true
+
+
+func _on_body_entered(body: Node) -> void:
+	if can_play_sound:
+		clink_sound_player.play()

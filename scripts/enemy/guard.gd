@@ -33,7 +33,6 @@ var target_index: int = 0
 var direction_step:int = 1
 
 var last_player_position: Vector3
-var furthest_retreat
 
 func _ready() -> void:
 	add_to_group("Enemy")

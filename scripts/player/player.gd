@@ -11,11 +11,11 @@ class_name Player
 
 @onready var gun: Node3D = $Head/PlayerCamera/Gun
 @onready var gun_ray: RayCast3D = $Head/PlayerCamera/Gun/RayCast3D
-#@onready var gun_sound_player: AudioStreamPlayer3D = $SoundEffects/GunShots
+@onready var gun_sound_player: AudioStreamPlayer3D = $SoundEffects/GunSoundPlayer
 #var gun_sound_position: Vector3
 var using_gun: bool
 
-@onready var sound_maker: Node3D = $SoundMaker
+#@onready var sound_maker: Node3D = $SoundMaker
 
 @onready var throwable: Node3D = $"Head/PlayerCamera/Throwable object"
 @onready var throw_point: Node3D = $"Head/PlayerCamera/Throwable object/ThrowPoint"
@@ -27,6 +27,9 @@ var using_throwable: bool
 @export var sprint_speed: float = 7.0
 var current_speed:float
 const jump_velocity = 4.5
+var sprinting: bool = false
+@onready var walk_sound_player: AudioStreamPlayer3D = $SoundEffects/WalkSoundPlayer
+@onready var run_sound_player: AudioStreamPlayer3D = $SoundEffects/SprintSoundPlayer
 
 var twist_input: float = 0.0
 var pitch_input: float = 0.0
@@ -52,11 +55,11 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	
-	
+
 
 func _physics_process(delta: float) -> void:
 	player_controls(delta)
+	check_movement_type()
 	throwable_object_detection()
 
 
@@ -85,26 +88,28 @@ func player_controls(delta: float):
 	
 	if Input.is_action_pressed("sprint"):
 		current_speed = sprint_speed
+		sprinting = true
 	else:
 		current_speed = speed
+		sprinting = false
 	
-	if Input.is_action_just_pressed("attack"):
-		if using_gun:
-			#var current_gun_sound_position = gun_sound_player.global_position
-			#gun_sound_player.play()
-			#gun_sound_position = current_gun_sound_position
-			sound_maker.play_sound_effect()
+	if using_gun:
+		if Input.is_action_just_pressed("attack"):
+			if gun_sound_player.playing:
+				gun_sound_player.play()
+			gun_sound_player.play()
 			if gun_ray.is_colliding():
 				var collider = gun_ray.get_collider()
 				if collider.is_in_group("Enemy"):
-					collider.take_damage(10, self)
-		elif using_throwable:
+					collider.take_damage(5, self)
+	elif using_throwable:
+		if Input.is_action_just_pressed("attack"):
 			var object = throwable_scene.instantiate()
 			get_tree().current_scene.add_child(object)
 			object.global_position = throw_point.global_position
-			object.add_collision_exception_with(self)
+			#object.add_collision_exception_with(self)
 			var throw_dir = throw_aim_point.global_position - throw_point.global_position
-			object.throw_object(throw_dir)
+			object.throw_object(throw_dir, self)
 			use_gun()
 	
 	move_and_slide()
@@ -122,6 +127,24 @@ func use_throwable():
 	throwable.visible = true
 	using_gun = false
 	gun.visible = false
+
+
+func check_movement_type():
+	if velocity == Vector3.ZERO:
+		#print("unmoving")
+		walk_sound_player.stop()
+		run_sound_player.stop()
+		pass
+	if !sprinting:
+		run_sound_player.stop()
+		if walk_sound_player.playing:
+			return
+		walk_sound_player.play()
+	else:
+		walk_sound_player.stop()
+		if run_sound_player.playing:
+			return
+		run_sound_player.play()
 
 
 func throwable_object_detection():
@@ -145,5 +168,3 @@ func throwable_object_detection():
 				item_pick_up_label.visible = false
 		else:
 			label_text.text = "You already have an item"
-		
-		

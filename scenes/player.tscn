@@ -4,7 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://ddpodhymow0wm" path="res://assets/models/enemies/guards/mp5.glb" id="2_g2els"]
 [ext_resource type="PackedScene" uid="uid://bkw4ipvinwx60" path="res://scenes/throwable_object.tscn" id="2_qhqgy"]
 [ext_resource type="AudioStream" uid="uid://8dek1qt05cuq" path="res://assets/sounds/gun-shots.mp3" id="4_dqkch"]
-[ext_resource type="Script" uid="uid://b5o2tda8l3ttg" path="res://scripts/sound_maker.gd" id="5_qlg0r"]
+[ext_resource type="AudioStream" uid="uid://kxecd4f2uytw" path="res://assets/sounds/walk-sound.mp3" id="4_fjrip"]
+[ext_resource type="AudioStream" uid="uid://bg2jp65qayfrg" path="res://assets/sounds/running-sound.mp3" id="5_smehm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_b7kvq"]
 
@@ -60,10 +61,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.3119116)
 
 [node name="SoundEffects" type="Node3D" parent="." unique_id=2141085425]
 
-[node name="SoundMaker" type="Node3D" parent="." unique_id=914692890 node_paths=PackedStringArray("audio_player")]
-script = ExtResource("5_qlg0r")
-audio_player = NodePath("GunShots")
+[node name="WalkSoundPlayer" type="AudioStreamPlayer3D" parent="SoundEffects" unique_id=42695439]
+stream = ExtResource("4_fjrip")
 
-[node name="GunShots" type="AudioStreamPlayer3D" parent="SoundMaker" unique_id=127513317]
+[node name="SprintSoundPlayer" type="AudioStreamPlayer3D" parent="SoundEffects" unique_id=1920522886]
+stream = ExtResource("5_smehm")
+
+[node name="GunSoundPlayer" type="AudioStreamPlayer3D" parent="SoundEffects" unique_id=1854477795]
 stream = ExtResource("4_dqkch")
-max_db = -1.5
