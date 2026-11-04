@@ -34,6 +34,13 @@ var direction_step:int = 1
 
 var last_player_position: Vector3
 
+@export var throwable_items: Node3D
+var items: Array[RigidBody3D] = []
+
+var sound_position: Vector3
+var sound_heard: bool = false
+var total_hearing_range: float = 25.0
+
 func _ready() -> void:
 	add_to_group("Enemy")
 	
@@ -118,7 +125,15 @@ func find_futhest_retreat_point() -> Vector3:
 	return point
 
 
-func take_damage(damage:int, attacker:Node3D = null):
+func detect_object_impact_sound(pos, volume):
+	var dist_to_sound = pos.distance_to(global_position)
+	var sound_reach = min(volume, total_hearing_range)
+	
+	if dist_to_sound <= sound_reach:
+		sound_position = pos
+		sound_heard = true
+
+func take_damage(damage:int, attacker: Node3D = null):
 	if current_health <= 0:
 		return
 	

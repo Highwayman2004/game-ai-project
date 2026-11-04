@@ -21,6 +21,10 @@ func Physics_Update(delta:float):
 			Transitioned.emit(self, "Chase")
 		return
 	
+	if guard.sound_heard:
+		advance_to_next_target()
+		Transitioned.emit(self, "InvestigateSound")
+		return
 	
 	if guard.nav_agent.is_navigation_finished():
 		advance_to_next_target()

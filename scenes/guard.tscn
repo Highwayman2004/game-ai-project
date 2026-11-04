@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bp1r5nqdkhgft" path="res://scripts/enemy/guard_chase.gd" id="6_5dfqo"]
 [ext_resource type="Script" uid="uid://b8vah1pteset8" path="res://scripts/enemy/guard_retreat.gd" id="7_ywdc2"]
 [ext_resource type="Script" uid="uid://coiekhudgydbq" path="res://scripts/enemy/Guard_retreat_wait.gd" id="8_c4sgu"]
+[ext_resource type="Script" uid="uid://itg2w63nprru" path="res://scripts/enemy/guard_investigate_sound.gd" id="9_rmy4q"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mkcvk"]
 radius = 0.42773438
@@ -64,6 +65,10 @@ metadata/_custom_type_script = "uid://b8vah1pteset8"
 [node name="RetreatWait" type="Node" parent="StateMachine" unique_id=1324463623]
 script = ExtResource("8_c4sgu")
 metadata/_custom_type_script = "uid://coiekhudgydbq"
+
+[node name="InvestigateSound" type="Node" parent="StateMachine" unique_id=1907051951]
+script = ExtResource("9_rmy4q")
+metadata/_custom_type_script = "uid://itg2w63nprru"
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=685286979]
 path_desired_distance = 0.6

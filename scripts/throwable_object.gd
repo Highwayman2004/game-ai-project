@@ -1,15 +1,26 @@
 extends RigidBody3D
 class_name Throwable_object
 
+signal impact_sound_made(pos: Vector3, volume: float)
+var sound_pos: Vector3
+var sound_vol: float
+
 @onready var clink_sound_player: AudioStreamPlayer3D = $ClinkSoundPlayer
 
 var time_to_colision: float = .1
 var time_left: float
 var can_play_sound: bool = false
 
+
+
+
 func _ready() -> void:
 	add_to_group("Object")
 	time_left = time_to_colision
+	var enemies: Array = get_tree().get_nodes_in_group("Enemy")
+	if enemies.size() > 0:
+		for e in enemies:
+			impact_sound_made.connect(e.detect_object_impact_sound)
 
 func throw_object(dir: Vector3, thrower: PhysicsBody3D = null):
 	linear_velocity = dir.normalized() * 15.0
@@ -28,3 +39,5 @@ func _process(delta: float) -> void:
 func _on_body_entered(body: Node) -> void:
 	if can_play_sound:
 		clink_sound_player.play()
+		#emit_signal("impact_sound_made", global_position, 10.0)
+		impact_sound_made.emit(global_position, 10.0)

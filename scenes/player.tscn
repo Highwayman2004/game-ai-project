@@ -69,3 +69,4 @@ stream = ExtResource("5_smehm")
 
 [node name="GunSoundPlayer" type="AudioStreamPlayer3D" parent="SoundEffects" unique_id=1854477795]
 stream = ExtResource("4_dqkch")
+max_db = -2.0

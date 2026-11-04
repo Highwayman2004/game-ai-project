@@ -17,6 +17,10 @@ func Physics_Update(delta:float):
 		Transitioned.emit(self, "Retreat" if guard.time_to_retreat else "Chase")
 		return
 	
+	if guard.sound_heard:
+		Transitioned.emit(self, "InvestigateSound")
+		return
+	
 	time_left -= delta
 	if time_left <= 0.0:
 		Transitioned.emit(self, "Patrol")
