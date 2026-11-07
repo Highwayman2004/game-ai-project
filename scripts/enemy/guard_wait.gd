@@ -10,11 +10,13 @@ func Enter():
 
 
 func Physics_Update(delta:float):
-	guard.velocity.x = 0
-	guard.velocity.z = 0
+	guard.velocity = Vector3.ZERO
 	
 	if guard.player_detected:
-		Transitioned.emit(self, "Retreat" if guard.time_to_retreat else "Chase")
+		if guard.time_to_retreat:
+			Transitioned.emit(self, "Retreat")
+		else:
+			Transitioned.emit(self, "Chase")
 		return
 	
 	if guard.sound_heard:

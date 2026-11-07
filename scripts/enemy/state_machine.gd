@@ -5,7 +5,6 @@ class_name State_machine
 
 var current_state: State
 var states: Dictionary = {}
-#var guard: Guard
 
 func init(guard: Guard) -> void:
 	for child in get_children():
@@ -17,7 +16,6 @@ func init(guard: Guard) -> void:
 	if initial_state:
 		initial_state.Enter()
 		current_state = initial_state
-
 
 
 func _process(delta: float) -> void:

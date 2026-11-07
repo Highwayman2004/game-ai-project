@@ -1,6 +1,8 @@
 extends CharacterBody3D
 class_name Player
 
+signal shot_sound_made(pos: Vector3, volume: float)
+
 @onready var head: Node3D = $Head
 @onready var player_camera: Camera3D = $Head/PlayerCamera
 @export var sensitivity: float = 0.001
@@ -12,10 +14,7 @@ class_name Player
 @onready var gun: Node3D = $Head/PlayerCamera/Gun
 @onready var gun_ray: RayCast3D = $Head/PlayerCamera/Gun/RayCast3D
 @onready var gun_sound_player: AudioStreamPlayer3D = $SoundEffects/GunSoundPlayer
-#var gun_sound_position: Vector3
 var using_gun: bool
-
-#@onready var sound_maker: Node3D = $SoundMaker
 
 @onready var throwable: Node3D = $"Head/PlayerCamera/Throwable object"
 @onready var throw_point: Node3D = $"Head/PlayerCamera/Throwable object/ThrowPoint"
@@ -98,6 +97,7 @@ func player_controls(delta: float):
 			if gun_sound_player.playing:
 				gun_sound_player.play()
 			gun_sound_player.play()
+			shot_sound_made.emit(global_position, 100)
 			if gun_ray.is_colliding():
 				var collider = gun_ray.get_collider()
 				if collider.is_in_group("Enemy"):
@@ -107,7 +107,6 @@ func player_controls(delta: float):
 			var object = throwable_scene.instantiate()
 			get_tree().current_scene.add_child(object)
 			object.global_position = throw_point.global_position
-			#object.add_collision_exception_with(self)
 			var throw_dir = throw_aim_point.global_position - throw_point.global_position
 			object.throw_object(throw_dir, self)
 			use_gun()
@@ -131,7 +130,6 @@ func use_throwable():
 
 func check_movement_type():
 	if velocity == Vector3.ZERO:
-		#print("unmoving")
 		walk_sound_player.stop()
 		run_sound_player.stop()
 		pass

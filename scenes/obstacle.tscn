@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://ddk3yu0gw7cl2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_mkcvk"]
+
+[node name="Obstacle" type="Node3D" unique_id=1614925828]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1754615976]
+mesh = SubResource("BoxMesh_mkcvk")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="." unique_id=1925581202]
+radius = 0.8
+affect_navigation_mesh = true

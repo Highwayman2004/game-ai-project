@@ -1,7 +1,6 @@
 extends CharacterBody3D
 class_name Guard
 
-
 @export var route_path: Node3D
 var route_points: Array[Node3D] = []
 
@@ -11,9 +10,6 @@ var retreat_points: Array[Node3D] = []
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 
 @onready var state_machine:State_machine = $StateMachine
-
-var current_speed: float
-@export var patrol_speed: float = 2.0
 
 @onready var vision_area: Area3D = $VisionArea
 @export var detection_rays: Node3D
@@ -34,9 +30,6 @@ var direction_step:int = 1
 
 var last_player_position: Vector3
 
-@export var throwable_items: Node3D
-var items: Array[RigidBody3D] = []
-
 var sound_position: Vector3
 var sound_heard: bool = false
 var total_hearing_range: float = 25.0
@@ -55,13 +48,16 @@ func _ready() -> void:
 	
 	if route_points.size() >= 2:
 		global_position = route_points[0].global_position
-		target_index = 1
 	
 	if detection_rays != null:
 		for d in detection_rays.get_children():
 			rays.append(d)
 	
 	current_health = max_health
+	
+	var player = get_tree().get_first_node_in_group("Player")
+	if player != null:
+		player.shot_sound_made.connect(detect_sound)
 	
 	await  get_tree().physics_frame
 	state_machine.init(self)
@@ -73,6 +69,18 @@ func _physics_process(delta: float) -> void:
 	
 	check_for_player(delta)
 	move_and_slide()
+
+
+func get_speed_and_rotation(delta:float, move_speed: float):
+	var target_position = nav_agent.get_next_path_position()
+	var direction = target_position - global_position
+	direction.y = 0
+	direction = direction.normalized()
+	velocity = direction * move_speed
+	
+	if direction.length() > 0.01:
+		var target_yaw = atan2(direction.x, direction.z)
+		rotation.y = lerp_angle(rotation.y, target_yaw, 2 * delta)
 
 
 func check_for_player(delta: float):
@@ -125,11 +133,10 @@ func find_futhest_retreat_point() -> Vector3:
 	return point
 
 
-func detect_object_impact_sound(pos, volume):
+func detect_sound(pos, volume):
 	var dist_to_sound = pos.distance_to(global_position)
-	var sound_reach = min(volume, total_hearing_range)
 	
-	if dist_to_sound <= sound_reach:
+	if dist_to_sound <= volume:
 		sound_position = pos
 		sound_heard = true
 

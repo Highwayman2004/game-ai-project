@@ -28,8 +28,3 @@ func _ready() -> void:
 			
 	for i in spawns.size():
 		items[i].global_position = spawns[i].global_position
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
